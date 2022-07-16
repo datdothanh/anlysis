@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "$libs": ["src/libs"],
+      "$libs/*": ["src/libs/*"]
+    }
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.svelte",
+    "src/containers/LineChart/LineChart.jsx"
+  ],
+  "exclude": ["node_modules", "**/node_modules", "dist"]
+}

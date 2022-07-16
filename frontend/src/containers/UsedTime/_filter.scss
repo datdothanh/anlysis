@@ -1,0 +1,39 @@
+.filter {
+  width: 75%;
+  padding-bottom: 15px;
+
+  label {
+    display: block;
+  }
+
+  input,
+  label {
+    margin: 0.4rem 0;
+  }
+
+  .filter-input {
+    padding: 5px;
+    padding-left: 9px;
+    margin: 0 !important;
+    width: 250px;
+    border-radius: 3.5px;
+    border: 1px solid;
+  }
+
+  .input-date {
+    input {
+      margin: 0px;
+      padding: 5px;
+      padding-left: 8px;
+      width: 250px;
+      border-radius: 3.5px;
+      border: 1px solid;
+      margin-left: 4px;
+    }
+  }
+
+  select {
+    border: 1px solid;
+    width: 250px;
+  }
+}

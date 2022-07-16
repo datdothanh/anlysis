@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Component render component success 1`] = `
+<div>
+  <div
+    class="error"
+  >
+    Error
+    <img
+      alt="not-found"
+      height="100px"
+      src="https://www.pngitem.com/pimgs/m/561-5616833_image-not-found-png-not-found-404-png.png"
+      width="100px"
+    />
+  </div>
+</div>
+`;

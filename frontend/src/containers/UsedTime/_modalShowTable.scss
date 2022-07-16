@@ -1,0 +1,58 @@
+.modal-custom-table {
+  .modal-content {
+    .modal-body {
+      input {
+        margin: 5px;
+      }
+
+      .error-input {
+        border-color: red;
+      }
+
+      .modal-text-date {
+        width: 190px;
+        padding: 2px;
+      }
+    }
+  }
+
+  select {
+    border: 1px solid;
+    display: inline-block;
+    padding: 3px;
+    margin: 5px;
+    width: 190px;
+  }
+
+  .modal-header {
+    display: grid;
+  }
+}
+
+.modal-buton {
+  margin: 15px;
+
+  &-ok {
+    margin-left: 15px;
+  }
+}
+
+.modal-contain {
+  display: flex;
+
+  .modal-item {
+    width: 49%;
+    margin: 5px;
+
+    .modal-text-title {
+      font-weight: bold;
+      margin-left: 5px;
+      font-size: 16px;
+    }
+
+    p {
+      margin-left: 5px;
+      color: red;
+    }
+  }
+}

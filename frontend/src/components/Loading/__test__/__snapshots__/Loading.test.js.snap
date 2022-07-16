@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading component render component success 1`] = `
+<div>
+  <div
+    class="loading"
+  >
+    <div
+      class="spinner-border text-success"
+      data-testid="loading"
+    />
+  </div>
+</div>
+`;

@@ -1,0 +1,32 @@
+.menu {
+  nav {
+    ul {
+      display: flex;
+      list-style: none;
+      justify-content: flex-start;
+      padding-left: 14px;
+
+      li {
+        a {
+          text-decoration: none;
+          color: #000;
+          font-size: 18px;
+          padding: 5px 5px;
+          display: inline-block;
+          vertical-align: middle;
+          padding: 10px;
+        }
+
+        .active {
+          background: rgb(64, 176, 60);
+          color: #fff;
+        }
+
+        :hover:not(.active) {
+          background-color: rgb(117, 109, 109);
+          color: #fff;
+        }
+      }
+    }
+  }
+}
