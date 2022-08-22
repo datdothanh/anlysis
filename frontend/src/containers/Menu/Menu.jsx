@@ -12,6 +12,9 @@ const Menu = () => {
           <li>
             <NavLink to="/used_time?page=1&sort=&search=&date=&type=">Used time</NavLink>
           </li>
+          <li>
+            <NavLink to="/class?page=1&sort=&search=&date=&type=">Class</NavLink>
+          </li>
         </ul>
       </nav>
     </div>

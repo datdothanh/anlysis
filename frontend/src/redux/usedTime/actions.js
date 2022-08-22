@@ -77,10 +77,10 @@ const postDataError = (payload) => {
   };
 };
 
-const postDataA = (data, callback) => {
+const postDataA = (callback) => {
   return {
     type: POST_USEDTIMEA_DATA,
-    payload: { data, callback }
+    payload: { callback }
   };
 };
 const postDataASuccess = (payload) => {

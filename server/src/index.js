@@ -10,6 +10,7 @@ const TimeUser = require("./model/TimeUser");
 const Profile = require("./model/Profile");
 const Anlysis = require("./model/Anlysis");
 const Result = require("./model/Result");
+const Class = require("./model/Class");
 const { spawn } = require("child_process");
 app.use(cors());
 
@@ -106,28 +107,6 @@ app.delete("/delete_used_time/:id", (req, res) => {
     });
 });
 
-app.get("/profile", (req, res) => {
-  Profile.find((err, profile) => {
-    if (err) console.log(err);
-    else {
-      res.json(profile);
-    }
-  });
-});
-
-app.post("/profile", (req, res) => {
-  const profile = new Profile(req.body);
-
-  profile
-    .save()
-    .then((profile) => {
-      res.status(200).json(profile);
-    })
-    .catch((err) => {
-      res.status(400).send("adding new profile failed");
-    });
-});
-
 const Abc = async () => {
   const child = spawn("python", ["test.py"], {
     cwd: "D:/ki1_nam5/csdl_lon/",
@@ -146,38 +125,16 @@ const Abc = async () => {
   child.on("close", (code) => {
     console.log(`Analysing data closed with code ${code}`);
   });
-}
+};
 
-app.post(
-  "/anlysis",
-  async(req, res) => {
-    await  Anlysis.deleteMany({})
-      .then(async() => {
-        const anlysis =  new Anlysis(req.body);
-        await  anlysis
-          .save()
-          .then(async (anlysis) => {
-            await Abc();
-            setTimeout(function() {
-              res.json({
-                status: "ok",
-              });
-            }, 20000);
-           
-          })
-          .catch((err) => {
-            res.status(400).send("adding new profile failed");
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          success: false,
-          message: "Có lỗi xảy ra",
-        });
-      });
-  },
-);
+app.post("/anlysis", async (req, res) => {
+  await Abc();
+  setTimeout(function () {
+    res.json({
+      status: "ok",
+    });
+  }, 10000);
+});
 
 app.get("/profile/:id", (req, res) => {
   const id = req.params.id;
@@ -218,6 +175,49 @@ app.get("/result", (req, res) => {
 //     })
 // });
 
+// app.get("/profile", (req, res) => {
+//   Profile.find((err, profile) => {
+//     if (err) console.log(err);
+//     else {
+//       res.json(profile);
+//     }
+//   }).limit(10).skip(10*(req.query.page-1));
+// });
+
+app.get("/profile", (req, res) => {
+  
+  Profile.aggregate([
+    {
+      $lookup: {
+        from: "classes",
+        localField: "idClass",
+        foreignField: "_id",
+        as: "class",
+      },
+    },
+  ]).exec((err, result) => {
+    if (err) {
+      console.log("error", err);
+    }
+    if (result) {
+      res.json(result.splice(5*(req.query.page-1), 5));
+    }
+  });
+});
+
+app.post("/profile", (req, res) => {
+  const profile = new Profile(req.body);
+
+  profile
+    .save()
+    .then((profile) => {
+      res.status(200).json(profile);
+    })
+    .catch((err) => {
+      res.status(400).send("adding new profile failed");
+    });
+});
+
 app.put("/profile/:id", (req, res) => {
   Profile.findById(req.params.id, (err, profile) => {
     if (!profile) res.status(404).send("Data is not found");
@@ -225,6 +225,7 @@ app.put("/profile/:id", (req, res) => {
       profile.userName = req.body.userName;
       profile.height = req.body.height;
       profile.weight = req.body.weight;
+      profile.idClass = req.body.idClass;
       profile
         .save()
         .then((profile) => {
@@ -241,6 +242,77 @@ app.delete("/delete_profile/:id", (req, res) => {
   const id = req.params.id;
 
   Profile.deleteMany({ _id: id })
+    .then(() =>
+      res.status(200).json({
+        success: true,
+        message: "deleted",
+      })
+    )
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: "Có lỗi xảy ra",
+      });
+    });
+});
+
+app.get("/classRoom", (req, res) => {
+  if (req.query.page > -1) {
+    Class.find((err, profile) => {
+      if (err) console.log(err);
+      else {
+        res.json(profile);
+      }
+    })
+      .limit(10)
+      .skip(10 * (req.query.page - 1));
+  } else {
+    Class.find((err, profile) => {
+      if (err) console.log(err);
+      else {
+        res.json(profile);
+      }
+    });
+  }
+});
+
+app.post("/classRoom", (req, res) => {
+  const classRoom = new Class(req.body);
+
+  classRoom
+    .save()
+    .then((classRoom) => {
+      res.status(200).json(classRoom);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+});
+
+app.put("/classRoom/:id", (req, res) => {
+  Class.findById(req.params.id, (err, classRoom) => {
+    if (!classRoom) res.status(404).send("Data is not found");
+    else {
+      classRoom.userName = req.body.userName;
+      classRoom.height = req.body.height;
+      classRoom.weight = req.body.weight;
+      classRoom
+        .save()
+        .then((classRoom) => {
+          res.json(classRoom);
+        })
+        .catch((err) => {
+          res.status(400).send("Update not possible");
+        });
+    }
+  });
+});
+
+app.delete("/delete_classRoom/:id", (req, res) => {
+  const id = req.params.id;
+
+  Class.deleteMany({ _id: id })
     .then(() =>
       res.status(200).json({
         success: true,

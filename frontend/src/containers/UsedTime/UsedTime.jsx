@@ -12,11 +12,14 @@ import Menu from '../Menu/Menu';
 import Paginatinon from '../../components/Pagination/Paginatinon';
 import Filter from './Filter';
 import ModalTable from './ModalTable';
+import { getDataClass } from '../../redux/class/actions';
 
 const UsedTime = () => {
   const { usedTimeData, isLoading, isError } = useSelector((state) => state.usedTime);
+  const { classData } = useSelector((state) => state.class);
   const listTitleNumber = ['Height', 'Weight'];
   const [dataRender, setDataRender] = useState([]);
+  console.log('dataRender', dataRender);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('asc');
   const [search, setSearch] = useState('');
@@ -73,6 +76,7 @@ const UsedTime = () => {
     setDate(params.date);
     setType(params.type);
     dispatch(getData([params.page, params.sort, params.search, params.date, params.type]));
+    dispatch(getDataClass([-2, params.sort, params.search, params.date, params.type]));
   }, [window.location.search]);
 
   const handleSort = useCallback(
@@ -102,10 +106,11 @@ const UsedTime = () => {
     const _id = usedTimeData[index]._id;
     dispatch(deleteData([_id, index]));
   };
-
+  console.log('classData', classData);
   const tableUsedTimeHeader = (
     <thead>
       <tr>
+        <th>Class</th>
         <th>
           UserName
           {sort == 'desc' ? (
@@ -145,11 +150,13 @@ const UsedTime = () => {
             <td colSpan={5}>no data</td>
           </tr>
         )}
+
         {!isError &&
           !isLoading &&
-          dataRender.map((val, index) => {
+          usedTimeData?.map((val, index) => {
             return (
               <tr key={index + uuidv4()} style={{ height: '80px' }}>
+                <td key={index + uuidv4()}>{val?.class[0]?.className}</td>
                 <td key={index + uuidv4()}>{val.userName}</td>
                 <td key={index + uuidv4()}>{val.height}</td>
                 <td key={index + uuidv4()}>{val.weight}</td>
@@ -194,6 +201,7 @@ const UsedTime = () => {
         positonEdit={positonEdit}
         usedTimeData={usedTimeData}
         setTypeModal={setTypeModal}
+        classData={classData}
       />
       <Menu page={page} sort={sort} search={search} date={date} type={type} />
       <div className="padding-title">

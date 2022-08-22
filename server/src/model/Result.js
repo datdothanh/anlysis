@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const Result = new Schema(
   {
-    w0: { type: Number, require: false },
-    w1: { type: Number, require: false },
+    w_0: { type: Number, require: false },
+    w_1: { type: Number, require: false },
     weight: { type: Number, require: false },
     userName: { type: String, require: false },
     height: { type: Number, require: false },

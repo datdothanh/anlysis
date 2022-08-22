@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 
-const Filter = ({ search, date, setSearch, setDate, setShow, setTypeModal }) => {
+const Filter = ({ search, setSearch, setShow, setTypeModal }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     const keyFilter = e.target.value.trim().toLowerCase();
     setSearch(keyFilter);
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setDate(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   setDate(e.target.value);
+  // };
   const handleShowModal = () => {
     setShow(true);
     setTypeModal('Add');
@@ -29,7 +29,7 @@ const Filter = ({ search, date, setSearch, setDate, setShow, setTypeModal }) => 
             value={search}
           />
         </Col>
-        <Col>
+        {/* <Col>
           <div className="d-flex input-date">
             <input
               data-testid="input-date-used"
@@ -39,7 +39,7 @@ const Filter = ({ search, date, setSearch, setDate, setShow, setTypeModal }) => 
               onChange={handleChange}
             />
           </div>
-        </Col>
+        </Col> */}
 
         <Col>
           <Button

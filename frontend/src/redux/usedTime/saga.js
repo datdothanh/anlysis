@@ -45,7 +45,7 @@ function* postUsedTime(action) {
 const POST_USEDTIMEA_DATA = 'POST_USEDTIMEA_DATA';
 function* postUsedTimeA(action) {
   try {
-    const data = yield call(postUsedTimeAData, action.payload.data);
+    const data = yield call(postUsedTimeAData);
     yield put(postDataASuccess(data));
     action.payload.callback(true);
   } catch (e) {

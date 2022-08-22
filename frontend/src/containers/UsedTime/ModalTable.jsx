@@ -9,11 +9,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTypeModal }) => {
+const ModalTable = ({
+  show,
+  setShow,
+  typeModal,
+  positonEdit,
+  usedTimeData,
+  setTypeModal,
+  classData
+}) => {
   const initvalues = {
     userNameI: '',
     heightI: '',
-    weightI: ''
+    weightI: '',
+    idClassI: '62f2aaba1630b1ec7b0f595e'
   };
   const [initData, setInitData] = useState(initvalues);
   const notifyS = () => toast.success('Success');
@@ -25,7 +34,8 @@ const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTy
       setInitData({
         userNameI: data.userName,
         heightI: data.height,
-        weightI: data.weight
+        weightI: data.weight,
+        idClassI: data.class[0]?._id
       });
     }
   }, [positonEdit, usedTimeData, typeModal]);
@@ -42,7 +52,7 @@ const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTy
     validationSchema: Yup.object({
       userNameI: Yup.string()
         .required('Required!')
-        .min(8, 'Mininum 8 characters')
+        .min(1, 'Mininum 1 characters')
         .max(255, 'Maximum 255 characters'),
       heightI: Yup.number().required('Required!'),
       weightI: Yup.number().required('Required')
@@ -51,13 +61,16 @@ const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTy
       const newProfileData = {
         userName: values.userNameI,
         height: values.heightI,
-        weight: values.weightI
+        weight: values.weightI,
+        idClass: values.idClassI
       };
+
       if (typeModal === 'Add') {
         dispatch(postData(newProfileData));
         values.userNameI = '';
         values.heightI = '';
         values.weightI = '';
+        values.idClassI = '';
       }
       if (typeModal === 'Edit') {
         const _id = usedTimeData[positonEdit]._id;
@@ -66,6 +79,7 @@ const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTy
       }
       onHide();
       notifyS();
+      window.location.reload();
     }
   });
 
@@ -100,6 +114,25 @@ const ModalTable = ({ show, setShow, typeModal, positonEdit, usedTimeData, setTy
                 {formik.touched.userNameI && formik.errors.userNameI && (
                   <p>{formik.errors.userNameI}</p>
                 )}
+              </div>
+              <div className="modal-item">
+                <div className="modal-text-title">Id Class</div>
+                <select
+                  value={formik.values.idClassI}
+                  onChange={formik.handleChange}
+                  name="idClassI">
+                  <option>Please select</option>
+                  {classData?.map((item, index) => (
+                    <option value={item._id} key={index}>
+                      {item.className}
+                    </option>
+                  ))}
+                </select>
+                {/* <input
+                  value={formik.values.idClassI}
+                  onChange={formik.handleChange}
+                  name="idClassI"
+                /> */}
               </div>
             </div>
             <div className="modal-contain">

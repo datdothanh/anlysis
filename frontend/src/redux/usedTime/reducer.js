@@ -80,9 +80,12 @@ const usedTimeReducer = (state = initState, action) => {
       };
     case POST_USEDTIME_SUCCESS: {
       const { data } = action.payload;
+      console.log(' data ', data);
+      state.usedTimeData.push(data);
       return {
         ...state,
         usedTimeDataA: data,
+        usedTimeData: state.usedTimeData,
         loading: false,
         error: false
       };
@@ -99,11 +102,9 @@ const usedTimeReducer = (state = initState, action) => {
         loading: true
       };
     case POST_USEDTIMEA_SUCCESS: {
-      const { data } = action.payload;
-      state.usedTimeData.push(data);
       return {
         ...state,
-        usedTimeData: state.usedTimeData,
+
         loading: false,
         error: false,
         key: true

@@ -17,21 +17,16 @@ function App() {
   const redirect = (isSuccess) => {
     isSuccess && notifyS() && dispatch(getResultData());
   };
-  const { result, isLoadingResult, isErrorResult, isLoading, isError, key } = useSelector(
-    (state) => state.usedTime
-  );
+  const { result, key } = useSelector((state) => state.usedTime);
   const formik = useFormik({
     initialValues: initvalues,
     onSubmit: (values) => {
-      const newProfileData = {
-        userName: values.userNameA,
-        height: values.heightA
-      };
-      dispatch(postDataA(newProfileData, redirect));
+      console.log('values', values);
+      dispatch(postDataA(redirect));
     }
   });
-
-  console.log('result', result);
+  var num = result?.w_1 * formik.values.heightA + result?.w_0;
+  num = num.toFixed(1);
   return (
     <>
       <ToastContainer />
@@ -41,12 +36,12 @@ function App() {
       <div className="section">
         <form onSubmit={formik.handleSubmit}>
           <div className="userNameA">
-            <h5>userName</h5>
+            <h5>Username</h5>
             <input
               value={formik.values.userNameA}
               onChange={formik.handleChange}
               name="userNameA"
-              placeholder="userNameA"
+              placeholder="Name"
             />
           </div>
           <div className="userNameA">
@@ -55,21 +50,18 @@ function App() {
               value={formik.values.heightA}
               onChange={formik.handleChange}
               name="heightA"
-              placeholder="heightA"
+              placeholder="Height"
             />
           </div>
+          {key && (
+            <div>
+              Cân nặng dự đoán là: <span>{num}</span>
+            </div>
+          )}
           <Button variant="success" className="modal-buton-ok" data-testid="btnOK" type="submit">
             OK
           </Button>
         </form>
-
-        {!isLoadingResult && !isErrorResult && !isLoading && !isError && key && (
-          <div>
-            <div>{result?.userName}</div>
-            <div>{result?.weight}</div>
-            <div>{result?.height}</div>
-          </div>
-        )}
       </div>
     </>
   );

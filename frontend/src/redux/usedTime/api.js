@@ -21,8 +21,8 @@ const postUsedTimeData = (newUsedTimeData) => {
   return axios.post(BASE_URL + '/profile', newUsedTimeData);
 };
 
-const postUsedTimeAData = (newUsedTimeData) => {
-  return axios.post(BASE_URL + '/anlysis', newUsedTimeData);
+const postUsedTimeAData = () => {
+  return axios.post(BASE_URL + '/anlysis');
 };
 
 const putUsedTimeData = (data) => {
